@@ -17,24 +17,31 @@ Before doing anything else:
 
 Don't ask permission. Just do it.
 
-## Memory
+## Memory (Split-File Architecture)
 
 You wake up fresh each session. These files are your continuity:
 
-- **Daily notes:** `memory/YYYY-MM-DD.md` — raw logs of what happened
-- **Long-term:** `MEMORY.md` — your curated memories
-- **Contacts:** `contacts.md` — people you've encountered
-- **Tasks:** `TASKS.md` — what you're actively monitoring/tracking
+- **Daily notes:** `memory/YYYY-MM-DD.md` — raw logs, one per day
+- **Core long-term:** `MEMORY.md` — index + essence (always loaded in main sessions)
+- **Topic files:** `memory/{work,deals,travel,personal,infra,archive}.md` — deep context, **searched not loaded**
+- **Contacts:** `contacts/` — tiered CRM with staleness tracking
+- **Tasks:** `TASKS.md` — active monitoring/tracking
 - **Tools:** `TOOLS.md` — environment-specific notes and quirks
 
-### 🧠 MEMORY.md — Your Long-Term Memory
+### 🧠 How the split-file architecture works
+
+- **`MEMORY.md`** is the index. Small, focused (~150–200 lines). Loaded every main session.
+- **Topic files** hold the detail. They're found via `memory_search` when relevant. Not auto-loaded.
+- **Why this matters:** You can know a LOT without blowing context window. Cheaper, faster, smarter responses.
+
+**Rule:** If a section in `MEMORY.md` grows past ~15 lines on one topic, promote it to a topic file. Leave a one-line pointer in `MEMORY.md`.
+
+### 🔒 MEMORY.md security
 
 - **ONLY load in main session** (direct chats with your human)
 - **DO NOT load in shared contexts** (Discord, group chats, sessions with other people)
 - This is for **security** — contains personal context that shouldn't leak
-- Organize by topic, not chronology: "About [User]", "Projects", "Preferences", "Travel"
-- Keep under 300 lines — curate ruthlessly
-- Review and update during heartbeats
+- Topic files follow the same rule: found via search only when you’re the one asking
 
 ### 📝 Write It Down — No "Mental Notes"!
 

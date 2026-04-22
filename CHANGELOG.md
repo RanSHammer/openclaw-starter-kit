@@ -1,5 +1,64 @@
 # Changelog
 
+## v3.0.0 — April 22, 2026
+
+Major architectural refresh based on another month of production use. Key changes: split-file memory, Granola auto-sync, computer use, design systems.
+
+### New Files
+
+- `memory/README.md` — explains the split-file memory architecture
+- `memory/work.md`, `memory/deals.md`, `memory/travel.md`, `memory/personal.md`, `memory/infra.md`, `memory/archive.md` — topic file templates (searched on demand, not auto-loaded)
+- `skills-setup/GRANOLA.md` — meeting recording + auto-sync guide
+- `skills-setup/granola-sync/export.py` — Granola cache → markdown exporter
+- `skills-setup/granola-sync/watch.sh` — file watcher script
+- `skills-setup/granola-sync/launchd.plist` — launchd template to run on login
+- `skills-setup/COMPUTER-USE.md` — screen/keyboard/mouse control stack (cliclick + playwright + tesseract)
+- `skills-setup/CLAUDE-DESIGN.md` — AI-generated decks and landing pages (Anthropic Labs' Claude Design)
+- `skills-setup/DESIGN-SYSTEMS.md` — DESIGN.md spec for brand-aware AI tooling
+
+### Architectural Changes
+
+#### Split-file memory
+
+`MEMORY.md` was getting long. v3 splits it into an **index + essence** file that stays loaded, and topic files (`memory/work.md`, etc.) that live in the `memory/` directory and are only found via `memory_search` when relevant. Benefits:
+
+- Smaller context window, faster responses
+- More total knowledge (topic files can be long without cost)
+- Cleaner curation
+
+Migration from v2: any section of your old `MEMORY.md` longer than ~15 lines should be promoted to a topic file.
+
+#### Design systems
+
+Added top-level `design-systems/` directory. Each brand you work on gets its own folder with a `DESIGN.md` file. Drop that file into Claude Design / Stitch / Cursor to get on-brand output automatically.
+
+#### Meeting auto-sync
+
+Granola caches meeting data locally. The new `granola-sync` watcher picks up every new meeting note and writes it to `memory/granola/YYYY-MM-DD-slug.md` within seconds. No manual forwarding.
+
+#### Computer use
+
+Installed: `cliclick` (mouse/keyboard), `playwright` (browser), `tesseract` (OCR), `screencapture` (built-in). Rule: agent always asks before acting on screen.
+
+### Updated Files
+
+- `README.md` — full file tree, new integrations, v3 architecture notes
+- `AGENTS.md` — updated memory section to explain split-file approach
+- `MEMORY.md` — reformatted as index + essence; topic files take the detail
+- `skills-setup/*` — no breaking changes, but model recommendations updated to Opus 4.7
+
+### Model Recommendations (v3)
+
+| Use Case | Model | Notes |
+|---|---|---|
+| Main conversation | `anthropic/claude-opus-4-7` | Opus 4.7 launched Apr 16, 2026 |
+| Heavy analysis / research | `openai/gpt-5.4` | Strong web-grounded |
+| Cron jobs | `anthropic/claude-sonnet-4-6` | Cheaper, fast enough |
+| Local / private | `ollama/qwen3.5:122b-a10b` | Free, local |
+| Image generation | `openai/gpt-image-1.5` | Latest quality |
+
+---
+
 ## v2.0.0 — March 25, 2026
 
 Major update based on 3 months of production use. Added integrations, real cron examples, and new workspace primitives.
@@ -8,36 +67,26 @@ Major update based on 3 months of production use. Added integrations, real cron 
 
 - `GOALS.md` — Quarterly goals tracker with status tracking and heartbeat integration
 - `contacts/` — Contact CRM directory with tier-based staleness tracking
-- `skills-setup/BROWSER.md` — OpenClaw browser automation guide (snapshot, click, form fill, screenshots)
-- `skills-setup/NOTION.md` — Notion API integration (internal integration, read/write pages, block types)
-- `skills-setup/TWITTER.md` — Twitter/X skill setup (post, reply, search, like; always draft-first workflow)
-- `skills-setup/VOICE.md` — OpenAI TTS voice notes (tts-1-hd, nova voice, Telegram delivery)
-- `skills-setup/GITHUB.md` — GitHub workflows via gh CLI (fork, branch, PR, awesome list submissions)
-- `skills-setup/SUBAGENTS.md` — Parallel subagent workflows and multi-model task delegation
+- `skills-setup/BROWSER.md` — OpenClaw browser automation guide
+- `skills-setup/NOTION.md` — Notion API integration
+- `skills-setup/TWITTER.md` — Twitter/X skill setup (always draft-first workflow)
+- `skills-setup/VOICE.md` — OpenAI TTS voice notes
+- `skills-setup/GITHUB.md` — GitHub workflows via gh CLI
+- `skills-setup/SUBAGENTS.md` — Parallel subagent workflows
 - `CHANGELOG.md` — This file
 
 ### Updated Files
 
-- `README.md` — Updated file tree, new integration descriptions, updated model recommendations table
+- `README.md` — Updated file tree, new integration descriptions, updated model recommendations
 - `HEARTBEAT.md` — Added goals check, contact staleness check, heartbeat counter, memory maintenance rotation
-- `skills-setup/CRON-TEMPLATES.md` — Replaced placeholder templates with real working examples (morning briefing, email review, tweet suggestions, weekly brief, contact staleness)
-
-### Model Recommendations (Updated)
-
-| Use Case | Model | Notes |
-|----------|-------|-------|
-| Main conversation | `claude-opus-4-6` | Best reasoning + personality |
-| Heavy analysis / research | `gpt-5.4` | Strong web-grounded research |
-| Cron jobs | `claude-sonnet-4-6` | Cheaper, fast enough |
-| Local / private | `ollama/qwen3.5` | Free, runs locally |
-| Image generation | `chatgpt-image-latest` | Best quality |
+- `skills-setup/CRON-TEMPLATES.md` — Real working examples (morning briefing, email review, tweet suggestions, weekly brief, contact staleness)
 
 ---
 
 ## v1.0.0 — March 2026
 
 Initial release. Core workspace architecture:
-- SOUL.md, AGENTS.md, USER.md, IDENTITY.md
-- Two-tier memory system (daily logs + MEMORY.md)
+- SOUL.md, AGENTS.md, USER.md, IDENTITY.md, MEMORY.md
 - TASKS.md, HEARTBEAT.md, TOOLS.md
-- skills-setup: EMAIL.md, CALENDAR.md, CRON-TEMPLATES.md
+- BOOTSTRAP.md for first-run
+- skills-setup/EMAIL.md, CALENDAR.md, CRON-TEMPLATES.md
