@@ -1,5 +1,30 @@
 # Changelog
 
+## v3.1.0 — April 22, 2026
+
+Agent-led onboarding. New users no longer read setup docs — the agent drives first-run experience through conversation + proactive nudges.
+
+### New Files
+
+- `ONBOARDING.md` — behavior spec the agent reads at the start of every session until onboarding is complete. Four phases: first contact (naming + avatar), situational awareness, quick win, connection. Philosophy: a relationship, not a checklist.
+- `memory/.onboarding.json` — state file tracking onboarding progress (phase, what's been learned, nudge history)
+- `skills-setup/onboarding-nudges.md` — five conditional cron templates for proactive outreach during the first ~4 weeks. Guard rails prevent spammy behavior; every nudge must deliver real value or skip the run.
+
+### Key Design Decisions
+
+- **Phase 0 always starts with naming.** First interaction must ask the user what to call the agent.
+- **Avatar generation in Phase 0.** Agent offers to generate 2–4 profile pic options via the image generation API, or accepts the user's own image.
+- **Nudges are conditional, not scheduled.** A cron fires hourly but most runs produce no output. Nudges only happen when there's a real moment.
+- **Silence is respected.** Three consecutive ignored nudges → switch to reactive-only mode for 7 days.
+- **Onboarding completes itself.** Agent sets `onboarding_complete: true` when the user has received real value 5+ times, corrected the agent 3+ times, and connected 3+ integrations organically.
+
+### Updated Files
+
+- `AGENTS.md` — added "read ONBOARDING.md if onboarding not complete" to session start routine
+- `README.md` — added onboarding to architecture overview and file tree
+
+---
+
 ## v3.0.0 — April 22, 2026
 
 Major architectural refresh based on another month of production use. Key changes: split-file memory, Granola auto-sync, computer use, design systems.

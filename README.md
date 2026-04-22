@@ -43,6 +43,7 @@ A proven workspace architecture for building a personal AI assistant that actual
     ├── COMPUTER-USE.md    ← Screen/keyboard/mouse control (NEW v3)
     ├── CLAUDE-DESIGN.md   ← AI-generated decks & landing pages (NEW v3)
     ├── DESIGN-SYSTEMS.md  ← DESIGN.md spec for brand-aware AI (NEW v3)
+    ├── onboarding-nudges.md ← Proactive onboarding cron templates (NEW v3.1)
     └── granola-sync/      ← Auto-sync script + launchd plist (NEW v3)
 ```
 
@@ -67,6 +68,7 @@ A proven workspace architecture for building a personal AI assistant that actual
 - **Computer use:** screen/keyboard/mouse tools installed (cliclick, playwright, tesseract) — human-in-the-loop checkpoints before every action.
 - **Design systems:** per-brand DESIGN.md files so AI design tools output on-brand work every time.
 - **Error correction loop:** every user correction gets logged, preventing repeat mistakes.
+- **Agent-led onboarding:** first-run experience is driven by the agent itself via `ONBOARDING.md` + proactive nudges — new users get named, set up, and delivering value without reading docs.
 
 ## Model Recommendations
 

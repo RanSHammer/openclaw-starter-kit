@@ -1,0 +1,23 @@
+{
+  "onboarding_complete": false,
+  "phase": "0_first_contact",
+  "started_at": null,
+  "completed_at": null,
+  "name_given": false,
+  "avatar_set": false,
+  "first_win": null,
+  "first_win_landed_at": null,
+  "integrations_connected": [],
+  "nudges": {
+    "last_sent_at": null,
+    "consecutive_no_reply": 0,
+    "paused_until": null
+  },
+  "learned": {
+    "primary_channels": [],
+    "pain_points": [],
+    "key_people": [],
+    "recurring_routines": []
+  },
+  "notes": "Agent reads ONBOARDING.md at session start while onboarding_complete is false."
+}
